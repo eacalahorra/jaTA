@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>jaTA</title>
+  <meta name="description" content="just a textarea" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --fg: #0a0a0a;
+      --accent: #1e90ff;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#0b0c0e; --fg:#e8e8e8; }
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+    }
+    textarea {
+      box-sizing: border-box;
+      width: 100%;
+      height: 100vh;
+      padding: 24px;
+      border: none;
+      outline: none;
+      resize: none;
+      font: 16px/1.6 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      background: var(--bg);
+      color: var(--fg);
+      caret-color: var(--accent);
+      tab-size: 2;
+    }
+  </style>
+</head>
+<body>
+  <textarea id="pad" spellcheck="false" placeholder=""></textarea>
+  <script>
+    (function(){
+      const pad = document.getElementById('pad');
+      const LS_KEY = 'jata.pad.v1';
+      let typingTimer;
+
+      try {
+        const saved = localStorage.getItem(LS_KEY);
+        if (saved) pad.value = saved;
+      } catch {}
+
+      window.addEventListener('load', () => pad.focus());
+
+      const saveLocal = () => {
+        try { localStorage.setItem(LS_KEY, pad.value); } catch {}
+      };
+
+      const debounced = () => {
+        clearTimeout(typingTimer);
+        typingTimer = setTimeout(saveLocal, 400);
+      };
+
+      pad.addEventListener('input', debounced);
+
+      window.addEventListener('keydown', (e) => {
+        if (!e.ctrlKey && !e.metaKey) return;
+        if (e.key.toLowerCase() === 's') {
+          e.preventDefault();
+          const blob = new Blob([pad.value], {type:'text/plain;charset=utf-8'});
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'note.txt';
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+        }
+
+        if (e.key.toLowerCase() === 'o') {
+          e.preventDefault();
+          const input = document.createElement('input');
+          input.type = 'file';
+          input.accept = 'text/plain, .txt, .md';
+          input.onchange = (evt) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              pad.value = e.target.result;
+              saveLocal();
+            };
+            reader.readAsText(file);
+          }
+        };
+        input.click();
+      });
+
+    })();
+  </script>
+</body>
+</html>

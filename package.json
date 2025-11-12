@@ -1,0 +1,47 @@
+{
+  "name": "jata",
+  "version": "1.0.0",
+  "description": "just a textarea",
+  "main": "main.js",
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "electron-builder --win",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^31.3.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.example.jata",
+    "productName": "jaTA",
+    "files": [
+      "index.html",
+      "main.js",
+      "preload.js",
+      "assets/**"
+    ],
+    "asar": true,
+    "directories": {
+      "buildResources": "build"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": false
+    }
+  }
+}
