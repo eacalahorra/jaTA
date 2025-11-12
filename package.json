@@ -4,7 +4,7 @@
   "description": "just a textarea",
   "main": "main.js",
   "author": "",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "scripts": {
     "start": "electron .",
     "dist:win": "electron-builder --win",
