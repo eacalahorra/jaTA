@@ -15,7 +15,7 @@
     "electron-builder": "^24.13.3"
   },
   "build": {
-    "appId": "com.example.jata",
+    "appId": "com.eacalahorra.jata",
     "productName": "jaTA",
     "files": [
       "index.html",
@@ -35,7 +35,8 @@
             "x64"
           ]
         }
-      ]
+      ],
+      "icon": "build/jata.ico"
     },
     "nsis": {
       "oneClick": true,
