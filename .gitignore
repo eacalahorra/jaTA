@@ -4,3 +4,4 @@ dist
 out
 ./assets
 ./build
+package-lock.json
