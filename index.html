@@ -87,7 +87,7 @@
               pad.value = e.target.result;
               saveLocal();
             };
-            reader.readAsText(file);
+            reader.readAsText(evt.target.files[0]);
           }
         };
         input.click();
