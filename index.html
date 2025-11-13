@@ -82,6 +82,8 @@
           input.type = 'file';
           input.accept = 'text/plain, .txt, .md';
           input.onchange = (evt) => {
+            const file = evt.target.files[0];
+            if (!file) return;
             const reader = new FileReader();
             reader.onload = (e) => {
               pad.value = e.target.result;
@@ -89,8 +91,8 @@
             };
             reader.readAsText(evt.target.files[0]);
           }
-        };
-        input.click();
+          input.click();
+        }
       });
 
     })();
